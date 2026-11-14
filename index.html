@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="favicon.png?v=20260826_V600">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bhavya's AI Flow Studio — Visual AI Workflow Automation</title>
+  <meta name="description" content="Visual node-based workflow automation studio for Bhavya's 15-app AI Ecosystem. Connect prompts, firewalls, models, code runners, and memory in 3D.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link rel="stylesheet" href="style.css?v=20260826_V600">
+  <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+  <!-- 3D WebGL Canvas Background -->
+  <div id="webgl-container"></div>
+
+  <!-- Top Cyberpunk Navigation Header -->
+  <header class="flow-header">
+    <div class="header-left">
+      <a href="https://bhavyas-ai-hub.vercel.app" class="hub-back-pill" title="Return to Master Hub">
+        <span class="pulse-dot"></span>
+        <span class="pill-title">BHAVYA'S AI MASTER HUB</span>
+        <span class="pill-arrow">↗</span>
+      </a>
+      <div class="app-brand">
+        <div class="brand-icon"><img src="logo-3d.png?v=20260826_V600" class="brand-3d-logo-img" alt="Logo"></div>
+        <div class="brand-info">
+          <h1>AI FLOW STUDIO</h1>
+          <div class="brand-sub">VISUAL WORKFLOW AUTOMATION ENGINE • v2.6.0</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-center">
+      <div class="template-selector">
+        <label for="template-select">PRE-BUILT FLOWS:</label>
+        <select id="template-select">
+          <option value="secure-rag">🛡️ Secure RAG & Synthesis (Sentinel ➡️ DocuMind ➡️ Assistant)</option>
+          <option value="research-code">🛰️ Autonomous Research & Coding (DeepSearch ➡️ Agent ➡️ Tutor)</option>
+          <option value="media-pipeline">🎨 Secure Creative Pipeline (Prompt ➡️ Router ➡️ Media Studio)</option>
+          <option value="custom">⚡ Blank Custom Canvas</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <button id="run-flow-btn" class="btn btn-primary glow-btn">
+        <span class="btn-icon">▶</span>
+        <span>EXECUTE FLOW</span>
+      </button>
+      <button id="clear-flow-btn" class="btn btn-secondary">
+        <span>CLEAR</span>
+      </button>
+      <button id="export-json-btn" class="btn btn-secondary" title="Export Pipeline JSON">
+        <span>EXPORT</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Canvas Workspace -->
+  <div class="flow-workspace">
+    <!-- Left Node Palette Sidebar -->
+    <aside class="node-palette">
+      <div class="palette-header">
+        <h3>ECOSYSTEM NODES</h3>
+        <p>Drag or click to place nodes on canvas</p>
+      </div>
+      <div class="node-category">
+        <div class="category-label">INPUT & SECURITY</div>
+        <div class="palette-item" draggable="true" data-type="input">
+          <span class="item-icon">📥</span>
+          <div class="item-meta">
+            <span class="item-title">User Prompt Input</span>
+            <span class="item-desc">Entry point for user queries</span>
+          </div>
+        </div>
+        <div class="palette-item" draggable="true" data-type="sentinel">
+          <span class="item-icon">🛡️</span>
+          <div class="item-meta">
+            <span class="item-title">AI Sentinel</span>
+            <span class="item-desc">PII mask & prompt firewall</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="node-category">
+        <div class="category-label">ROUTING & INTELLIGENCE</div>
+        <div class="palette-item" draggable="true" data-type="router">
+          <span class="item-icon">🧭</span>
+          <div class="item-meta">
+            <span class="item-title">Smart Router</span>
+            <span class="item-desc">Dispatches by complexity</span>
+          </div>
+        </div>
+        <div class="palette-item" draggable="true" data-type="assistant">
+          <span class="item-icon">🤖</span>
+          <div class="item-meta">
+            <span class="item-title">AI Assistant</span>
+            <span class="item-desc">High-IQ multi-turn LLM</span>
+          </div>
+        </div>
+        <div class="palette-item" draggable="true" data-type="agent">
+          <span class="item-icon">⚡</span>
+          <div class="item-meta">
+            <span class="item-title">AI Agent</span>
+            <span class="item-desc">Multi-step goal decomposition</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="node-category">
+        <div class="category-label">KNOWLEDGE & TOOLS</div>
+        <div class="palette-item" draggable="true" data-type="documind">
+          <span class="item-icon">📄</span>
+          <div class="item-meta">
+            <span class="item-title">DocuMind</span>
+            <span class="item-desc">PDF vector RAG analysis</span>
+          </div>
+        </div>
+        <div class="palette-item" draggable="true" data-type="deepsearch">
+          <span class="item-icon">🛰️</span>
+          <div class="item-meta">
+            <span class="item-title">DeepSearch</span>
+            <span class="item-desc">Multi-hop web crawler</span>
+          </div>
+        </div>
+        <div class="palette-item" draggable="true" data-type="coding">
+          <span class="item-icon">💻</span>
+          <div class="item-meta">
+            <span class="item-title">Coding Tutor</span>
+            <span class="item-desc">Trace & code debugger</span>
+          </div>
+        </div>
+        <div class="palette-item" draggable="true" data-type="media">
+          <span class="item-icon">🎨</span>
+          <div class="item-meta">
+            <span class="item-title">Media Studio</span>
+            <span class="item-desc">8K visual generative lab</span>
+          </div>
+        </div>
+        <div class="palette-item" draggable="true" data-type="synapse">
+          <span class="item-icon">🧠</span>
+          <div class="item-meta">
+            <span class="item-title">Synapse Memory</span>
+            <span class="item-desc">Universal cross-app memory</span>
+          </div>
+        </div>
+        <div class="palette-item" draggable="true" data-type="audio">
+          <span class="item-icon">🎵</span>
+          <div class="item-meta">
+            <span class="item-title">AI Audio Lab</span>
+            <span class="item-desc">WebAudio synth & stem lab</span>
+          </div>
+        </div>
+        <div class="palette-item" draggable="true" data-type="vision">
+          <span class="item-icon">👁️</span>
+          <div class="item-meta">
+            <span class="item-title">AI Vision Lab</span>
+            <span class="item-desc">Object detection & face mesh</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="node-category">
+        <div class="category-label">OUTPUT</div>
+        <div class="palette-item" draggable="true" data-type="output">
+          <span class="item-icon">📤</span>
+          <div class="item-meta">
+            <span class="item-title">Output Terminal</span>
+            <span class="item-desc">Final result & payload</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Infinite Node Graph Canvas -->
+    <main class="canvas-area" id="canvas-area">
+      <svg class="wires-layer" id="wires-layer"></svg>
+      <div class="nodes-container" id="nodes-container"></div>
+      
+      <!-- Canvas Floating Controls -->
+      <div class="canvas-controls">
+        <button id="zoom-in-btn" class="ctrl-btn" title="Zoom In">+</button>
+        <button id="zoom-out-btn" class="ctrl-btn" title="Zoom Out">-</button>
+        <button id="reset-view-btn" class="ctrl-btn" title="Reset View">⊙</button>
+        <div class="live-status-pill">
+          <span class="status-indicator"></span>
+          <span id="pipeline-status-text">PIPELINE READY</span>
+        </div>
+      </div>
+    </main>
+
+    <!-- Right Live Execution Inspector -->
+    <aside class="flow-inspector">
+      <div class="inspector-header">
+        <h3>EXECUTION LOG</h3>
+        <span class="inspector-badge">LIVE HUD</span>
+      </div>
+      <div class="inspector-content" id="inspector-feed">
+        <div class="log-entry log-info">
+          <span class="log-time">[00:00]</span> Flow Studio initialized. Select a template or connect nodes, then click <strong>EXECUTE FLOW</strong>.
+        </div>
+      </div>
+      <div class="inspector-footer">
+        <div class="telemetry-item">
+          <span>PIPELINE NODES:</span>
+          <strong id="stat-node-count">0</strong>
+        </div>
+        <div class="telemetry-item">
+          <span>ACTIVE WIRES:</span>
+          <strong id="stat-wire-count">0</strong>
+        </div>
+        <div class="telemetry-item">
+          <span>EST. LATENCY:</span>
+          <strong id="stat-latency">~120ms</strong>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="app.js?v=20260826_V600"></script>
+  <script src="omni-palette.js?v=20260826_V600"></script>
+  <script src="./universal-ecosystem-hud.js"></script>
+</body>
+</html>
